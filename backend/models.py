@@ -1,6 +1,7 @@
 from asyncio import FastChildWatcher
 from enum import unique
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ForeignKey
 
 database_name = 'meowbook'
 database_path = 'postgresql://{}:{}@localhost:{}/{}'.format('postgres', '1234', 5432,database_name)
@@ -26,6 +27,7 @@ class Usuario(db.Model):
     usuario_email = db.Column(db.String, unique=True, nullable=False)
     usuario_apodo = db.Column(db.String, unique=True, nullable=False)
     usuario_contrasena = db.Column(db.String, nullable=False)
+    resenas = db.relationship('Resena', backref='usuario')
 
     def __repr__(self):
         return f'''
@@ -44,16 +46,18 @@ class Libro(db.Model):
     __tablename__ = 'libros'
     libro_id = db.Column(db.Integer, primary_key=True)
     libro_titulo = db.Column(db.Integer, nullable=False)
-    #libro_autor_id -> Foreing Key
+    libro_autor_id = db.Column(db.Integer, ForeignKey('autor.autor_id'))
     libro_sinopsis = db.Column(db.Text, nullable=False)
     libro_editorial = db.Column(db.String, nullable=False)
     libro_publicacion = db.Column(db.Date, nullable=True)
     libro_isbn = db.Column(db.String, nullable=False)
+    resenas = db.relationship('Resena', backref='libro')
 
     def __repr__(self):
         return f'''
                 Libro: 
                 id = {self.libro_id}, 
+                autor_id = {self.libro_autor_id},  
                 titulo = {self.libro_titulo}, 
                 editorial = {self.libro_editorial}, 
                 publicacion = {self.libro_publicacion}, 
@@ -67,7 +71,7 @@ class Autor(db.Model):
     autor_nombre = db.Column(db.String, nullable=False)
     autor_apellido = db.Column(db.String, nullable=True)
     autor_estado = db.Column(db.Boolean, nullable=False)
-    # libros -> Foreing Key
+    libros = db.relationship('Libro', backref='autor')
 
     def __repr__(self):
         return f'''
@@ -82,8 +86,8 @@ class Autor(db.Model):
 class Resena(db.Model):
     __tablenames__ = 'resenas'
     resena_id = db.Column(db.Integer, primary_key=True)
-    # resena_usuario_id -> Foreing Key
-    # resena_libro_id -> Foreing Key
+    resena_usuario_id = db.Column(db.Integer, ForeignKey('usuario.usuario_id'))
+    resena_libro_id = db.Column(db.Integer, ForeignKey('libro.libro_id'))
     resena_comentario = db.Column(db.Text, nullable=False)
     # resena_like -> Por investigar
     resena_publicacion = db.Column(db.Date, nullable=False) # Default = currend_date
@@ -92,5 +96,7 @@ class Resena(db.Model):
         return f'''
                 Resena:
                 id = {self.resena_id}, 
+                usuario_id = {self.resena_usuario_id}, 
+                libro_id = {self.resena_libro_id}
                 publicacion = {self.resena_publicacion}
         '''
