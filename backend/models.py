@@ -39,4 +39,24 @@ class Usuario(db.Model):
                 password = {self.usuario_contrasena}
         '''
 
+class Libro(db.Model):
+    __tablename__ = 'libros'
+    libro_id = db.Column(db.Integer, primary_key=True)
+    libro_titulo = db.Column(db.Integer, nullable=False)
+    #libro_autor_id -> Foreing Key
+    libro_sinopsis = db.Column(db.Text, nullable=False)
+    libro_editorial = db.Column(db.String, nullable=False)
+    libro_publicacion = db.Column(db.Date, nullable=True)
+    libro_isbn = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        return f'''
+                Libro: 
+                id = {self.libro_id}, 
+                titulo = {self.libro_titulo}, 
+                editorial = {self.libro_editorial}, 
+                publicacion = {self.libro_publicacion}, 
+                ISBN = {self.libro_isbn}
+        '''
+
 
