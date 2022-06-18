@@ -15,8 +15,8 @@ def setup_db(app, database_path=database_path):
     db.init_app(app) # Inicialización de la app----------
     db.create_all()  # Creación de modelos.--------------
 
-# Modelos -----------------------------------------------
-
+# Modelos -----------------------------------------------------------
+#------------------------------Usuario------------------------------#
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
     usuario_id = db.Column(db.Integer, primary_key=True)
@@ -39,6 +39,7 @@ class Usuario(db.Model):
                 password = {self.usuario_contrasena}
         '''
 
+#-------------------------------Libro-------------------------------#
 class Libro(db.Model):
     __tablename__ = 'libros'
     libro_id = db.Column(db.Integer, primary_key=True)
@@ -59,6 +60,7 @@ class Libro(db.Model):
                 ISBN = {self.libro_isbn}
         '''
 
+#-------------------------------Autor-------------------------------#
 class Autor(db.Model):
     __tablename__ = 'autores'
     autor_id = db.Column(db.Integer, primary_key=True)
@@ -76,6 +78,7 @@ class Autor(db.Model):
                 estado = {self.autor_estado}
         '''
 
+#-------------------------------Resena------------------------------#
 class Resena(db.Model):
     __tablenames__ = 'resenas'
     resena_id = db.Column(db.Integer, primary_key=True)
