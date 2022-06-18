@@ -75,3 +75,19 @@ class Autor(db.Model):
                 apellido = {self.autor_apellido}, 
                 estado = {self.autor_estado}
         '''
+
+class Resena(db.Model):
+    __tablenames__ = 'resenas'
+    resena_id = db.Column(db.Integer, primary_key=True)
+    # resena_usuario_id -> Foreing Key
+    # resena_libro_id -> Foreing Key
+    resena_comentario = db.Column(db.Text, nullable=False)
+    # resena_like -> Por investigar
+    resena_publicacion = db.Column(db.Date, nullable=False) # Default = currend_date
+
+    def __repr__(self):
+        return f'''
+                Resena:
+                id = {self.resena_id}, 
+                publicacion = {self.resena_publicacion}
+        '''
