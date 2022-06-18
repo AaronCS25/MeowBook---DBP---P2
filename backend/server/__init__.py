@@ -34,4 +34,4 @@ def create_app(test_config=None):
 
     @app.route('/')
     def index():
-        return render_template('index.hmtl')
+        return render_template('index.html')
