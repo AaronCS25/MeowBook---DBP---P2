@@ -59,4 +59,19 @@ class Libro(db.Model):
                 ISBN = {self.libro_isbn}
         '''
 
+class Autor(db.Model):
+    __tablename__ = 'autores'
+    autor_id = db.Column(db.Integer, primary_key=True)
+    autor_nombre = db.Column(db.String, nullable=False)
+    autor_apellido = db.Column(db.String, nullable=True)
+    autor_estado = db.Column(db.Boolean, nullable=False)
+    # libros -> Foreing Key
 
+    def __repr__(self):
+        return f'''
+                Autor: 
+                id = {self.autor_id}, 
+                nombre = {self.autor_nombre}, 
+                apellido = {self.autor_apellido}, 
+                estado = {self.autor_estado}
+        '''
