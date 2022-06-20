@@ -1,6 +1,4 @@
-from crypt import methods
 import json
-import re
 from flask import (
     Flask, 
     jsonify,
@@ -12,11 +10,12 @@ from flask import (
 from flask_cors import CORS
 from itsdangerous import NoneAlgorithm
 
-from models import setup_db, Usuario, Libro, Autor, Resena
+from models import setup_db
+import templates
 
 
 # Agregar una función de paginación de ser necesario ------
-    # TODO
+    
 
 
 # ---------------------------------------------------------
@@ -34,4 +33,6 @@ def create_app(test_config=None):
 
     @app.route('/')
     def index():
-        return render_template('index.html')
+        return 'nada'
+    
+    return app;
