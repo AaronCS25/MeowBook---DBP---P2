@@ -1,18 +1,18 @@
+from cgitb import html
 import json
 from flask import (
     Flask, 
     jsonify,
     abort,
     render_template,
-    request
+    request,
+    url_for
 )
 
 from flask_cors import CORS
 from itsdangerous import NoneAlgorithm
 
 from models import setup_db
-import templates
-
 
 # Agregar una función de paginación de ser necesario ------
     
@@ -33,6 +33,6 @@ def create_app(test_config=None):
 
     @app.route('/')
     def index():
-        return 'nada'
+        return render_template('index.html')
     
     return app;
