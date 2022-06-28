@@ -1,3 +1,3 @@
-/virtualenv
-/backend/__pychache__
-/backend/server/__pychache__
+\virtualenv
+\backend\__pycache__
+\backend\server\__pycache__
