@@ -354,7 +354,7 @@ def create_app(test_config=None):
         if search:
             # Fix selection.
             selection = Libro.query.order_by('libro_id').filter(Libro.libro_titulo.like('%{}%'.format(search))).all()
-            # Fix
+            # Fix likes
             likes = paginated_likes(request, selection)
             return jsonify({
                 'success': True,

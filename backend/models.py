@@ -113,7 +113,7 @@ class Autor(db.Model):
 class Libro(db.Model):
     __tablename__ = 'libros'
     libro_id = db.Column(db.Integer, primary_key=True)
-    libro_titulo = db.Column(db.Integer, nullable=False)
+    libro_titulo = db.Column(db.String, nullable=False)
     libro_autor_id = db.Column(db.Integer, ForeignKey('autores.autor_id'))
     libro_sinopsis = db.Column(db.Text, nullable=False)
     libro_editorial = db.Column(db.String, nullable=False)
