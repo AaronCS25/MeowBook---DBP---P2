@@ -217,6 +217,41 @@ class Resena(db.Model):
     # resena_like -> Por investigar
     resena_publicacion = db.Column(db.Date, nullable=False) # Default = currend_date
 
+    def insert(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.resena_id
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def update(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+        
+    def format(self):
+        return {
+            'id': self.resena_id,
+            'usuario_id': self.resena_usuario_id,
+            'libro_id': self.resena_libro_id,
+            'publicacion': self.resena_publicacion
+        }
+
     def __repr__(self):
         return f'''
                 Resena:
