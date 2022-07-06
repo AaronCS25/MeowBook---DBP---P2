@@ -1,6 +1,7 @@
 from distutils.log import error
 import json
 from tkinter.messagebox import NO
+from tkinter.tix import Tree
 from flask import (
     Flask, 
     jsonify,
@@ -132,6 +133,37 @@ def create_app(test_config=None):
             print(e)
             if error_422:
                 abort(422)
+            else:
+                abort(500)
+    
+    @app.route('/autores/<autor_id>', methods=['PATCH'])
+    def updated_autor(autor_id):
+        error_404=False
+        try:
+            autor = Autor.query.filter(Autor.autor_id == autor_id).one_or_none()
+            if autor is None:
+                error_404=True
+                abort(404)
+
+            body = request.get_json()
+            if 'autor_nombre' in body:
+                autor.autor_nombre = body.get('autor_nombre')
+            if 'autor_apellido' in body:
+                autor.autor_apellido = body.get('autor_apellido')
+            if 'autor_estado' in body:
+                autor.autor_estado = body.get('autor_estado')
+
+            autor.update()
+
+            return jsonify({
+                'success': True,
+                'autor_id': autor_id
+            })
+
+        except Exception as e:
+            print(e)
+            if error_404:
+                abort(404)
             else:
                 abort(500)
 
