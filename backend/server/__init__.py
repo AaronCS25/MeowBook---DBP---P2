@@ -1,5 +1,6 @@
 from distutils.log import error
 import json
+from tkinter.messagebox import NO
 from flask import (
     Flask, 
     jsonify,
@@ -18,6 +19,15 @@ from models import setup_db, Usuario, Libro, Autor, Like, Resena
 # Agregar una función de paginación de ser necesario ------
 
 LIBROS_PER_PAGE=5
+AUTORES_PER_PAGE=5
+
+def paginated_autores(request, selection):
+    pagina = request.args.get('page', 1, type=int)
+    inicio = (pagina - 1) * LIBROS_PER_PAGE
+    final = LIBROS_PER_PAGE + inicio
+    autores = [autor.format() for autor in selection]
+    show_autores = autores[inicio:final]
+    return show_autores
 
 def paginated_libros(request, selection):
     pagina = request.args.get('page', 1, type=int)
@@ -62,6 +72,22 @@ def create_app(test_config=None):
             return jsonify({
                 'success': True
             })
+
+    #--------------------Autor---------------------#
+    @app.route('/autor', methods=['GET'])
+    def get_autor():
+        selection = Autor.query.oder_by('autor_id').all()
+        autores = paginated_autores(request, selection)
+
+        if len(autores) == 0:
+            abort(404)
+        
+        return jsonify({
+            'success': True,
+            'autores': autores,
+            'total_autoress': len(autores)
+        })
+
     #--------------------Libros--------------------#
     @app.route('/libros', methods=['GET'])
     def get_libros():
@@ -187,9 +213,6 @@ def create_app(test_config=None):
                 abort(404)
             else:
                 abort(500)
-
-    
-    #--------------------Libros--------------------#
 
 # Error Handler--------------------------------------------
 
