@@ -114,6 +114,41 @@ class Autor(db.Model):
     autor_estado = db.Column(db.Boolean, nullable=False)
     libros = db.relationship('Libro', backref='Autor')
 
+    def insert(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.autor_id
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def update(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+        
+    def format(self):
+        return {
+            'id': self.autor_id,
+            'autor_nombre': self.autor_nombre,
+            'autor_apellido': self.autor_apellido,
+            'autor_estado': self.autor_estado
+        }
+
     def __repr__(self):
         return f'''
                 Autor: 
