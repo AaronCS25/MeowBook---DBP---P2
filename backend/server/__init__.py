@@ -410,6 +410,34 @@ def create_app(test_config=None):
                 abort(404)
             else:
                 abort(500)
+    
+    @app.route('/likes/<like_id>', methods=['DELETE'])
+    def deleted_like(like_id):
+        error_404 = False
+        try:
+            like = Like.query.filter(Like.like_id == like_id).one_or_none()
+            if like is None:
+                error_404 = True
+                abort(404)
+            
+            like.delete()
+
+            selection = Like.query.order_by('like_id').all()
+            likes = paginated_likes(request, selection)
+
+            return jsonify({
+                'success': True,
+                'delete': like_id,
+                'likes': likes,
+                'total_likes': len(selection)
+            })
+        except Exception as e:
+            print(e)
+            if error_404:
+                abort(404)
+            else:
+                abort(500)
+
 
 
 # Error Handler--------------------------------------------
