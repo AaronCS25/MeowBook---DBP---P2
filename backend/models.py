@@ -1,5 +1,6 @@
+from importlib.metadata import SelectableGroups
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, delete, true
 
 #-------------------------
 
@@ -57,6 +58,41 @@ class Libro(db.Model):
     libro_publicacion = db.Column(db.Date, nullable=True)
     libro_isbn = db.Column(db.String, nullable=False)
     resenas = db.relationship('Resena', backref='Libro')
+
+    def insert(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.libro_id
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def update(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+        
+    def format(self):
+        return {
+            'id': self.libro_id,
+            'libro_titulo': self.libro_titulo,
+            'libro_autor_id': self.libro_autor_id,
+            'libro_isbn': self.libro_isbn
+        }
 
     def __repr__(self):
         return f'''
