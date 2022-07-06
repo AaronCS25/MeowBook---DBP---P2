@@ -1,5 +1,9 @@
 from cgitb import html
+from crypt import methods
+from functools import total_ordering
 import json
+from pickle import NONE
+from tkinter import CURRENT
 from flask import (
     Flask, 
     jsonify,
@@ -11,12 +15,24 @@ from flask import (
 
 from flask_cors import CORS
 from itsdangerous import NoneAlgorithm
+from sqlalchemy import true
 
-from models import setup_db, Usuario
+from models import setup_db, Usuario, Libro, Autor, Like, Resena
 
 # Agregar una función de paginación de ser necesario ------
-    
 
+LIBROS_PER_PAGE=5
+
+def paginated_libros(request, selection):
+    pagina = request.args.get('page', 1, type=int)
+    inicio = (pagina - 1) * LIBROS_PER_PAGE
+    final = LIBROS_PER_PAGE + inicio
+    libros = [libro.format() for libro in selection]
+    show_libros = libros[inicio:final]
+    return show_libros
+
+
+CURRENT_USER = None
 
 # ---------------------------------------------------------
 
@@ -31,6 +47,8 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorizations, true')
         response.headers.add('Access-Control-Allow-Headers', 'GET, POST, PATCH, DELETE, OPTIONS')
         return response
+
+# Routes---------------------------------------------------
 
     @app.route('/', methods=['POST'])
     def login():
@@ -48,12 +66,23 @@ def create_app(test_config=None):
             return jsonify({
                 'success': True
             })
+    #--------------------Libros--------------------#
+    @app.route('/libros', methods=['GET'])
+    def get_libros():
+        selection = Libro.query.order_by('libro_id').all() # Todos los libros
+        libros = paginated_libros(request, selection)
+
+        if len(libros) == 0:
+            abort(404)
+        
+        return jsonify({
+            'success': True,
+            'libros': libros,
+            'total_libros': len(selection)
+        })
 
 
-
-
-
-# Error Handler -----------------------------------------
+# Error Handler--------------------------------------------
 
     @app.errorhandler(400)
     def bad_request(error):
