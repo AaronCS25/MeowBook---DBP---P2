@@ -343,6 +343,44 @@ def create_app(test_config=None):
             'likes': likes,
             'total_likes': len(selection)
         })
+    
+    @app.route('/likes', methods=['POST'])
+    def create_like():
+        body = request.get_json()
+        like_usuario_id = body.get('like_usuario_id', None)
+        like_libro_id = body.get('like_libro_id', None)
+        search = body.get('search', None)
+
+        if search:
+            # Fix selection.
+            selection = Libro.query.order_by('libro_id').filter(Libro.libro_titulo.like('%{}%'.format(search))).all()
+            # Fix
+            likes = paginated_likes(request, selection)
+            return jsonify({
+                'success': True,
+                'like_libros': likes,
+                'total_likes': len(selection)
+            })
+        if like_usuario_id is None or like_libro_id is None:
+            abort(422)
+        
+        try:
+            like = Like( like_usuario_id=like_usuario_id,
+                         like_libro_id=like_libro_id)
+            new_like_id = like.insert()
+
+            selection = Like.query.order_by('like_id').all()
+            likes = paginated_likes(request, selection)
+
+            return jsonify({
+                'success': True,
+                'created': new_like_id,
+                'likes': likes,
+                'total_likes': len(selection)
+            })
+        except Exception as e:
+            print(e)
+            abort(500)
 
 # Error Handler--------------------------------------------
 
