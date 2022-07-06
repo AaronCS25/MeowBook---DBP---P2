@@ -1,8 +1,15 @@
+from importlib.metadata import SelectableGroups
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, delete, true
+
+#-------------------------
 
 database_name = 'meowbook'
-database_path = 'postgresql://{}:{}@localhost:{}/{}'.format('postgres', '74040168', 5432,database_name) #modificar según
+password_path = '1234'
+database_path = 'postgresql://{}:{}@localhost:{}/{}'.format('postgres', password_path, 5432,database_name)
+
+#--------------------------
+
 
 db = SQLAlchemy() # Instancia SQL
 
@@ -25,6 +32,7 @@ class Usuario(db.Model):
     usuario_email = db.Column(db.String, unique=True, nullable=False)
     usuario_apodo = db.Column(db.String, unique=True, nullable=False)
     usuario_contrasena = db.Column(db.String, nullable=False)
+    likes = db.relationship('Like', backref='Usuario')
     resenas = db.relationship('Resena', backref='Usuario')
 
     def insert(self):
@@ -61,6 +69,41 @@ class Libro(db.Model):
     libro_isbn = db.Column(db.String, nullable=False)
     resenas = db.relationship('Resena', backref='Libro')
 
+    def insert(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.libro_id
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def update(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+        
+    def format(self):
+        return {
+            'id': self.libro_id,
+            'libro_titulo': self.libro_titulo,
+            'libro_autor_id': self.libro_autor_id,
+            'libro_isbn': self.libro_isbn
+        }
+
     def __repr__(self):
         return f'''
                 Libro: 
@@ -81,6 +124,41 @@ class Autor(db.Model):
     autor_estado = db.Column(db.Boolean, nullable=False)
     libros = db.relationship('Libro', backref='Autor')
 
+    def insert(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.autor_id
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def update(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+        
+    def format(self):
+        return {
+            'id': self.autor_id,
+            'autor_nombre': self.autor_nombre,
+            'autor_apellido': self.autor_apellido,
+            'autor_estado': self.autor_estado
+        }
+
     def __repr__(self):
         return f'''
                 Autor: 
@@ -90,15 +168,99 @@ class Autor(db.Model):
                 estado = {self.autor_estado}
         '''
 
+#--------------------------------Like-------------------------------#
+class Like(db.Model):
+    __tablename__ = 'likes'
+    like_id = db.Column(db.Integer, primary_key=True)
+    like_usuario_id = db.Column(db.Integer, ForeignKey('usuarios.usuario_id'))
+    like_libro_id = db.Column(db.Integer, ForeignKey('libros.libro_id'))
+
+    def insert(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.like_id
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def update(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+        
+    def format(self):
+        return {
+            'id': self.like_id,
+            'usuario_id': self.like_usuario_id,
+            'libro_id': self.like_libro_id
+        }
+
+    def __repr__(self):
+        return f'''
+                Like:
+                id = {self.like_id}, 
+                usuario_id = {self.like_usuario_id}, 
+                libro_id = {self.like_libro_id}
+        '''
+
 #-------------------------------Resena------------------------------#
 class Resena(db.Model):
-    __tablenames__ = 'resenas'
+    __tablename__ = 'resenas'
     resena_id = db.Column(db.Integer, primary_key=True)
     resena_usuario_id = db.Column(db.Integer, ForeignKey('usuarios.usuario_id'))
     resena_libro_id = db.Column(db.Integer, ForeignKey('libros.libro_id'))
     resena_comentario = db.Column(db.Text, nullable=False)
     # resena_like -> Por investigar
     resena_publicacion = db.Column(db.Date, nullable=False) # Default = currend_date
+
+    def insert(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.resena_id
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def update(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+        
+    def format(self):
+        return {
+            'id': self.resena_id,
+            'usuario_id': self.resena_usuario_id,
+            'libro_id': self.resena_libro_id,
+            'publicacion': self.resena_publicacion
+        }
 
     def __repr__(self):
         return f'''

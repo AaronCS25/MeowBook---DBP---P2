@@ -1,6 +1,13 @@
 from cgitb import html
+from crypt import methods
+from functools import total_ordering
 import json
+<<<<<<< HEAD
 from urllib import response
+=======
+from pickle import NONE
+from tkinter import CURRENT
+>>>>>>> 0f7a4edd6a3b49e0210acb2650ca29afc6c01a57
 from flask import (
     Flask, 
     jsonify,
@@ -12,19 +19,32 @@ from flask import (
 
 from flask_cors import CORS
 from itsdangerous import NoneAlgorithm
+from sqlalchemy import true
 
-from models import setup_db, Usuario
+from models import setup_db, Usuario, Libro, Autor, Like, Resena
 
 # Agregar una función de paginación de ser necesario ------
-    
 
+LIBROS_PER_PAGE=5
+
+def paginated_libros(request, selection):
+    pagina = request.args.get('page', 1, type=int)
+    inicio = (pagina - 1) * LIBROS_PER_PAGE
+    final = LIBROS_PER_PAGE + inicio
+    libros = [libro.format() for libro in selection]
+    show_libros = libros[inicio:final]
+    return show_libros
+
+
+CURRENT_USER = None
 
 # ---------------------------------------------------------
 
 def create_app(test_config=None):
     app = Flask(__name__) # Instancia de Flask.
     setup_db(app)
-    CORS(app, origins=['http://localhost:8081'], max_age=10) # Acá se pone el url donde se levanta el frontend
+    CORS(app, origins=['http://localhost:8081'], max_age=10)
+    # Autorizamos a que nuestro frontend se conecte con nuestro backend.
 
     @app.after_request
     def after_request(response):
@@ -32,6 +52,7 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Headers', 'GET, POST, PATCH, DELETE, OPTIONS')
         return response
 
+<<<<<<< HEAD
     @app.route('/usuarios', methods=['POST'])
     def create_usuario():
         usuario_nombre = request.get_json()['usuario_nombre']
@@ -50,6 +71,9 @@ def create_app(test_config=None):
         })
         
 
+=======
+# Routes---------------------------------------------------
+>>>>>>> 0f7a4edd6a3b49e0210acb2650ca29afc6c01a57
 
     @app.route('/', methods=['POST'])
     def login():
@@ -67,6 +91,23 @@ def create_app(test_config=None):
             return jsonify({
                 'success': True
             })
+    #--------------------Libros--------------------#
+    @app.route('/libros', methods=['GET'])
+    def get_libros():
+        selection = Libro.query.order_by('libro_id').all() # Todos los libros
+        libros = paginated_libros(request, selection)
+
+        if len(libros) == 0:
+            abort(404)
+        
+        return jsonify({
+            'success': True,
+            'libros': libros,
+            'total_libros': len(selection)
+        })
+
+
+# Error Handler--------------------------------------------
 
     @app.errorhandler(400)
     def bad_request(error):
@@ -84,5 +125,28 @@ def create_app(test_config=None):
             'message': 'forbidden'
         }), 403
 
+    @app.errorhandler(404)
+    def forbidden(error):
+        return jsonify({
+            'success': False,
+            'code': 404, 
+            'message': 'resource not found'
+        }), 404
+    
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({
+            'success': False,
+            'code': 422,
+            'message': 'unprocessable'
+        }), 422
+
+    @app.errorhandler(500)
+    def server_error(error):
+        return jsonify({
+            'success': False,
+            'code': 500,
+            'message': 'internal server error'
+        }), 500
     
     return app
