@@ -9,7 +9,7 @@
 ## Integrantes:
 
 * Camacho Valencia, Aaron Arturo - 202020021
-* Ruiz de Somocurcio Landa, Cristóbal - 202010386
+* Integrante 2
 * Integrante 3
 * Integrante 4
 
