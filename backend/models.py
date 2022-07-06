@@ -165,6 +165,40 @@ class Like(db.Model):
     like_usuario_id = db.Column(db.Integer, ForeignKey('usuarios.usuario_id'))
     like_libro_id = db.Column(db.Integer, ForeignKey('libros.libro_id'))
 
+    def insert(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.like_id
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def update(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+        
+    def format(self):
+        return {
+            'id': self.like_id,
+            'usuario_id': self.like_usuario_id,
+            'libro_id': self.like_libro_id
+        }
+
     def __repr__(self):
         return f'''
                 Like:
