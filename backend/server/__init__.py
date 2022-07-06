@@ -23,7 +23,8 @@ from models import setup_db, Usuario
 def create_app(test_config=None):
     app = Flask(__name__) # Instancia de Flask.
     setup_db(app)
-    CORS(app, origins=['http://localhost:8081'], max_age=10) # Acá se pone el url donde se levanta el frontend
+    CORS(app, origins=['http://localhost:8081'], max_age=10)
+    # Autorizamos a que nuestro frontend se conecte con nuestro backend.
 
     @app.after_request
     def after_request(response):
@@ -48,6 +49,12 @@ def create_app(test_config=None):
                 'success': True
             })
 
+
+
+
+
+# Error Handler -----------------------------------------
+
     @app.errorhandler(400)
     def bad_request(error):
         return jsonify({
@@ -64,5 +71,28 @@ def create_app(test_config=None):
             'message': 'forbidden'
         }), 403
 
+    @app.errorhandler(404)
+    def forbidden(error):
+        return jsonify({
+            'success': False,
+            'code': 404, 
+            'message': 'resource not found'
+        }), 404
+    
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({
+            'success': False,
+            'code': 422,
+            'message': 'unprocessable'
+        }), 422
+
+    @app.errorhandler(500)
+    def server_error(error):
+        return jsonify({
+            'success': False,
+            'code': 500,
+            'message': 'internal server error'
+        }), 500
     
     return app
