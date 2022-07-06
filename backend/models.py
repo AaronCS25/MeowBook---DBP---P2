@@ -56,6 +56,59 @@ class Usuario(db.Model):
                 password = {self.usuario_contrasena}
         '''
 
+#-------------------------------Autor-------------------------------#
+class Autor(db.Model):
+    __tablename__ = 'autores'
+    autor_id = db.Column(db.Integer, primary_key=True)
+    autor_nombre = db.Column(db.String, nullable=False)
+    autor_apellido = db.Column(db.String, nullable=True)
+    autor_estado = db.Column(db.Boolean, nullable=False)
+    libros = db.relationship('Libro', backref='Autor')
+
+    def insert(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.autor_id
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def update(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+        
+    def format(self):
+        return {
+            'id': self.autor_id,
+            'autor_nombre': self.autor_nombre,
+            'autor_apellido': self.autor_apellido,
+            'autor_estado': self.autor_estado
+        }
+
+    def __repr__(self):
+        return f'''
+                Autor: 
+                id = {self.autor_id}, 
+                nombre = {self.autor_nombre}, 
+                apellido = {self.autor_apellido}, 
+                estado = {self.autor_estado}
+        '''
+
 #-------------------------------Libro-------------------------------#
 class Libro(db.Model):
     __tablename__ = 'libros'
@@ -112,59 +165,6 @@ class Libro(db.Model):
                 editorial = {self.libro_editorial}, 
                 publicacion = {self.libro_publicacion}, 
                 ISBN = {self.libro_isbn}
-        '''
-
-#-------------------------------Autor-------------------------------#
-class Autor(db.Model):
-    __tablename__ = 'autores'
-    autor_id = db.Column(db.Integer, primary_key=True)
-    autor_nombre = db.Column(db.String, nullable=False)
-    autor_apellido = db.Column(db.String, nullable=True)
-    autor_estado = db.Column(db.Boolean, nullable=False)
-    libros = db.relationship('Libro', backref='Autor')
-
-    def insert(self):
-        try:
-            db.session.add(self)
-            db.session.commit()
-            return self.autor_id
-        except:
-            db.session.rollback()
-        finally:
-            db.session.close()
-    
-    def update(self):
-        try:
-            db.session.commit()
-        except:
-            db.session.rollback()
-        finally:
-            db.session.close()
-    
-    def delete(self):
-        try:
-            db.session.delete(self)
-            db.session.commit()
-        except:
-            db.session.rollback()
-        finally:
-            db.session.close()
-        
-    def format(self):
-        return {
-            'id': self.autor_id,
-            'autor_nombre': self.autor_nombre,
-            'autor_apellido': self.autor_apellido,
-            'autor_estado': self.autor_estado
-        }
-
-    def __repr__(self):
-        return f'''
-                Autor: 
-                id = {self.autor_id}, 
-                nombre = {self.autor_nombre}, 
-                apellido = {self.autor_apellido}, 
-                estado = {self.autor_estado}
         '''
 
 #--------------------------------Like-------------------------------#
