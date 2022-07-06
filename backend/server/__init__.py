@@ -105,6 +105,56 @@ def create_app(test_config=None):
             'libros': libros,
             'total_libros': len(selection)
         })
+    
+    @app.route('/libros', methods=['POST'])
+    def create_libro():
+        body = request.get_json()
+
+        libro_titulo = body.get('libro_titulo', None)
+        libro_autor_id = body.get('libro_autor_id', 1)
+        libro_sinopsis = body.get('libro_sinopsis', None)
+        libro_editorial = body.get('libro_editorial', None)
+        libro_publicacion = body.get('libro_publicacion', None)
+        libro_isbn = body.get('libro_isbn', None)
+
+        search = body.get('search', None)
+
+        if search:
+            selection = Libro.query.oder_by('libro_id').filter(Libro.libro_titulo.like('%{}%'.format(search))).all()
+            libros = paginated_libros(selection)
+            return jsonify({
+                'success': True,
+                'libros': libros,
+                'total_libros': len(selection)
+            })
+        
+        if libro_titulo is None or libro_autor_id is None or libro_sinopsis is None or libro_editorial is None or libro_publicacion is None or libro_isbn is None:
+            abort(422)
+        
+        try:
+            libro = Libro(  libro_titulo=libro_titulo,
+                            libro_autor_id=libro_autor_id,
+                            libro_sinopsis=libro_sinopsis,
+                            libro_editorial=libro_editorial, 
+                            libro_publicacion=libro_publicacion, 
+                            libro_isbn=libro_isbn)
+                            
+            new_libro_id = libro.insert()
+
+            selection = Libro.query.oder_by('libro_id').all()
+            libros = paginated_libros(request, selection)
+
+            return jsonify({
+                'success': True,
+                'created': new_libro_id,
+                'libros': libros,
+                'total_libros': len(selection)
+            })
+        except Exception as e:
+            print(e)
+            abort(500)
+        
+
 
 
 # Error Handler--------------------------------------------
