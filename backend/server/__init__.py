@@ -1,5 +1,6 @@
 from distutils.log import error
 import json
+from tkinter import E
 from tkinter.messagebox import NO
 from tkinter.tix import Tree
 from flask import (
@@ -381,6 +382,35 @@ def create_app(test_config=None):
         except Exception as e:
             print(e)
             abort(500)
+
+    @app.route('/likes/<like_id>', methods=['PATCH'])
+    def updated_like(like_id):
+        error_404 = False,
+        try:
+            like = Like.query.filter(Like.like_id == like_id).one_or_none()
+            if like is None:
+                error_404 = True
+                abort(404)
+            
+            body = request.get_json()
+            if 'like_usuario_id' in body:
+                like.like_usuario_id = body.get('like_usuario_id')
+            if 'like_libro_id' in body:
+                like.like_libro_id = body.get('like_libro_id')
+            
+            like.updated()
+
+            return jsonify({
+                'success': True,
+                'like_id': like_id
+            })
+        except Exception as e:
+            print(e)
+            if error_404:
+                abort(404)
+            else:
+                abort(500)
+
 
 # Error Handler--------------------------------------------
 
