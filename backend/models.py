@@ -31,6 +31,7 @@ class Usuario(db.Model):
     usuario_email = db.Column(db.String, unique=True, nullable=False)
     usuario_apodo = db.Column(db.String, unique=True, nullable=False)
     usuario_contrasena = db.Column(db.String, nullable=False)
+    likes = db.relationship('Like', backref='Usuario')
     resenas = db.relationship('Resena', backref='Usuario')
 
     def __repr__(self):
@@ -86,9 +87,24 @@ class Autor(db.Model):
                 estado = {self.autor_estado}
         '''
 
+#--------------------------------Like-------------------------------#
+class Like(db.Model):
+    __tablename__ = 'likes'
+    like_id = db.Column(db.Integer, primary_key=True)
+    like_usuario_id = db.Column(db.Integer, ForeignKey('usuarios.usuario_id'))
+    like_libro_id = db.Column(db.Integer, ForeignKey('libros.libro_id'))
+
+    def __repr__(self):
+        return f'''
+                Like:
+                id = {self.like_id}, 
+                usuario_id = {self.like_usuario_id}, 
+                libro_id = {self.like_libro_id}
+        '''
+
 #-------------------------------Resena------------------------------#
 class Resena(db.Model):
-    __tablenames__ = 'resenas'
+    __tablename__ = 'resenas'
     resena_id = db.Column(db.Integer, primary_key=True)
     resena_usuario_id = db.Column(db.Integer, ForeignKey('usuarios.usuario_id'))
     resena_libro_id = db.Column(db.Integer, ForeignKey('libros.libro_id'))
