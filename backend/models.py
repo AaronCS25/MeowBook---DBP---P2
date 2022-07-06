@@ -1,8 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 
+#-------------------------
+
 database_name = 'meowbook'
-database_path = 'postgresql://{}:{}@localhost:{}/{}'.format('postgres', '74040168', 5432,database_name) #modificar según
+password_path = '1234'
+database_path = 'postgresql://{}:{}@localhost:{}/{}'.format('postgres', password_path, 5432,database_name)
+
+#--------------------------
+
 
 db = SQLAlchemy() # Instancia SQL
 
