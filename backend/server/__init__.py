@@ -88,6 +88,53 @@ def create_app(test_config=None):
             'total_autoress': len(autores)
         })
 
+    @app.route('/autores', methods=['POST'])
+    def create_autores():
+        body = request.get_json()
+        error_422=False
+
+        autor_nombre = body.get('autor_nombre', None)
+        autor_apellido = body.get('autor_apellido', None)
+        autor_estado = body.get('autor_estado', 'activo')
+        search = body.get('search', None)
+
+        if search:
+            selection = Autor.query.order_by('autor_id').filter(Autor.autor_nombre.like('%{}%'.format(search))).all()
+            autores = paginated_autores(request, selection)
+            return jsonify({
+                'success': True,
+                'autores': autores,
+                'total_autores': len(selection)
+            })
+
+        try:
+            if autor_nombre is None or autor_apellido is None or autor_estado is None:
+                error_422=True
+                abort(422)
+                
+            
+            autor = Autor(  autor_nombre=autor_nombre,
+                            autor_apellido=autor_apellido,
+                            autor_estado=autor_estado)
+            
+            new_autor_id = autor.insert()
+
+            selection = Autor.query.order_by('autor_id').all()
+            autores = paginated_autores(request, selection)
+
+            return jsonify({
+                'success': True,
+                'created': new_autor_id,
+                'autores': autores,
+                'total_autores': len(selection)
+            })
+        except Exception as e:
+            print(e)
+            if error_422:
+                abort(422)
+            else:
+                abort(500)
+
     #--------------------Libros--------------------#
     @app.route('/libros', methods=['GET'])
     def get_libros():
