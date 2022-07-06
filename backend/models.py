@@ -27,6 +27,16 @@ class Usuario(db.Model):
     usuario_contrasena = db.Column(db.String, nullable=False)
     resenas = db.relationship('Resena', backref='Usuario')
 
+    def insert(self):
+        try:
+                db.session.add(self)
+                db.session.commit()
+                return self.usuario_id
+        except:
+                db.session.rollback()
+        finally:
+                db.session.close()
+
     def __repr__(self):
         return f'''
                 Usuario: 
