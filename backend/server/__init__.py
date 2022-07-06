@@ -166,6 +166,33 @@ def create_app(test_config=None):
                 abort(404)
             else:
                 abort(500)
+    
+    @app.route('/autores/<autor_id>', methods=['DELETE'])
+    def delete_autor(autor_id):
+        error_404 = False
+        try:
+            autor = Autor.query.filter(Autor.autor_id == autor_id).one_or_none()
+            if autor is None:
+                error_404=True
+                abort(404)
+            
+            autor.delete()
+
+            selection = Autor.query.oder_by('id').all()
+            autores = paginated_autores(request, selection)
+
+            return jsonify({
+                'success': True,
+                'deleted': autor_id,
+                'autores': autores,
+                'total_autores': len(selection)
+            })
+        except Exception as e:
+            print(e)
+            if error_404:
+                abort(404)
+            else:
+                abort(500)
 
     #--------------------Libros--------------------#
     @app.route('/libros', methods=['GET'])
