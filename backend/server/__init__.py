@@ -75,9 +75,9 @@ def create_app(test_config=None):
             })
 
     #--------------------Autor---------------------#
-    @app.route('/autor', methods=['GET'])
+    @app.route('/autores', methods=['GET'])
     def get_autor():
-        selection = Autor.query.oder_by('autor_id').all()
+        selection = Autor.query.order_by('autor_id').all()
         autores = paginated_autores(request, selection)
 
         if len(autores) == 0:
