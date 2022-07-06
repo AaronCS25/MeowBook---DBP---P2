@@ -21,6 +21,7 @@ from models import setup_db, Usuario, Libro, Autor, Like, Resena
 
 LIBROS_PER_PAGE=5
 AUTORES_PER_PAGE=5
+LIKES_PER_PAGE=5
 
 def paginated_autores(request, selection):
     pagina = request.args.get('page', 1, type=int)
@@ -37,6 +38,14 @@ def paginated_libros(request, selection):
     libros = [libro.format() for libro in selection]
     show_libros = libros[inicio:final]
     return show_libros
+
+def paginated_likes(request, selection):
+    pagina = request.args.get('page', 1, type=int)
+    inicio = (pagina - 1) * LIKES_PER_PAGE
+    final = LIKES_PER_PAGE + inicio
+    likes = [like.format() for like in selection]
+    show_likes = likes[inicio:final]
+    return show_likes
 
 
 CURRENT_USER = None
@@ -319,6 +328,21 @@ def create_app(test_config=None):
                 abort(404)
             else:
                 abort(500)
+
+    #---------------------Like---------------------#
+    @app.route('/likes', methods=['GET']) # Retorna los libros que nos gustan.
+    def get_likes():
+        selection = Like.query.order_by('like_id').all()
+        likes = paginated_likes(request, selection)
+
+        if len(likes) == 0:
+            abort(404)
+        
+        return jsonify({
+            'succes': True,
+            'likes': likes,
+            'total_likes': len(selection)
+        })
 
 # Error Handler--------------------------------------------
 
