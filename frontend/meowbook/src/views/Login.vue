@@ -2,11 +2,11 @@
   <div>
     <h1>Iniciar Sesión</h1>
     <form @submit.prevent="login">
-      <input v-model="nombre" placeholder="nombre" /><br />
+      <input v-model="usuario_email" type="email" placeholder="Email" /><br />
       <input
-        v-model="contrasena"
+        v-model="usuario_contrasena"
         type="password"
-        placeholder="contraseña"
+        placeholder="Contraseña"
       /><br />
       <button type="submit">Login</button>
     </form>
@@ -22,8 +22,8 @@ export default {
   name: "Login",
   data() {
     return {
-      nombre: "",
-      contrasena: "",
+      usuario_email: "",
+      usuario_contrasena: "",
     };
   },
   methods: {
@@ -32,8 +32,8 @@ export default {
       const response = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
-          nombre: this.nombre,
-          contrasena: this.contrasena,
+          usuario_email: this.usuario_email,
+          usuario_contrasena: this.usuario_contrasena,
         }),
         headers: {
           "Content-Type": "application/json",
