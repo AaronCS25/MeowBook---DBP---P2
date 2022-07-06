@@ -1,4 +1,3 @@
-from importlib.metadata import SelectableGroups
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey, delete, true
 

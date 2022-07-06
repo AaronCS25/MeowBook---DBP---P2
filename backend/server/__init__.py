@@ -1,6 +1,4 @@
-from cgitb import html
-from crypt import methods
-from functools import total_ordering
+from distutils.log import error
 import json
 <<<<<<< HEAD
 from urllib import response
@@ -138,7 +136,7 @@ def create_app(test_config=None):
                             libro_editorial=libro_editorial, 
                             libro_publicacion=libro_publicacion, 
                             libro_isbn=libro_isbn)
-                            
+
             new_libro_id = libro.insert()
 
             selection = Libro.query.oder_by('libro_id').all()
@@ -153,9 +151,42 @@ def create_app(test_config=None):
         except Exception as e:
             print(e)
             abort(500)
-        
 
+    @app.route('/libros/<libro_id>', methods=['PATCH'])
+    def update_libro(libro_id):
+        error_404 = False
+        try:
+            libro = Libro.query.filter(Libro.libro_id == libro_id).one_or_none()
+            if libro is None:
+                error_404 = True
+                abort(404)
 
+            body = request.get_json()
+            if 'libro_titulo' in body:
+                libro.libro_titulo = body.get('libro_titulo')
+            if 'libro_autor_id' in body:
+                libro.libro_titulo = body.get('libro_titulo')
+            if 'libro_sinopsis' in body:
+                libro.libro_sinopsis = body.get('libro_sinopsi')
+            if 'libro_editorial' in body:
+                libro.libro_editorial = body.get('libro_editorial')
+            if 'libro_publicacion' in body:
+                libro.libro_publicacion = body.get('libro_publicacion')
+            if 'libro_isbn' in body:
+                libro.libro_isbn = body.get('libro_isbn')
+
+            libro.update()
+
+            return jsonify({
+                'success': True,
+                'libro_id': libro_id
+            })
+        except Exception as e:
+            print(e)
+            if error_404:
+                abort(404)
+            else:
+                abort(500)
 
 # Error Handler--------------------------------------------
 
