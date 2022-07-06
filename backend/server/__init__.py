@@ -188,6 +188,33 @@ def create_app(test_config=None):
             else:
                 abort(500)
 
+    @app.route('/libros/<libro_id>', methods=['DELETE'])
+    def delete_libro(libro_id):
+        error_404 = False
+        try:
+            libro = Libro.query.filter(Libro.id == libro_id).one_or_none()
+            if libro is None:
+                error_404 = True
+                abort(404)
+            
+            libro.delete()
+
+            selection = Libro.query.order_by('libro_id').all()
+            libros = paginated_libros(request, selection)
+
+            return jsonify({
+                'success': True,
+                'deleted': libro_id,
+                'libros': libros,
+                'total_libros': len(selection)
+            })
+        except Exception as e:
+            print(e)
+            if error_404:
+                abort(404)
+            else:
+                abort(500)
+                
 # Error Handler--------------------------------------------
 
     @app.errorhandler(400)
