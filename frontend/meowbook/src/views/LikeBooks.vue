@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>LikeBooks</h1>
+    <input type="text" v-model="search" />
+    <button>search</button>
     <ul class="libros">
       <li class="libro">
         <h4>Título</h4>
@@ -9,6 +11,7 @@
           <li class="elemento">Publicación:</li>
           <li class="elemento">ISBN:</li>
         </ul>
+        <input type="checkbox" id="checkbox" value="Like" />
       </li>
     </ul>
   </div>
