@@ -459,7 +459,7 @@ def create_app(test_config=None):
         }), 403
 
     @app.errorhandler(404)
-    def forbidden(error):
+    def notfound(error):
         return jsonify({
             'success': False,
             'code': 404, 
