@@ -45,8 +45,8 @@ export default {
   },
   methods: {
     async signin() {
-      const URL = "http://127.0.0.1:500/usuarios";
-      fetch(URL, {
+      const URL = "http://127.0.0.1:5000/usuarios";
+      const response = await fetch(URL, {
         method: "POST",
         body: JSON.stringify({
           usuario_nombre: this.usuario.usuario_nombre,
@@ -60,6 +60,14 @@ export default {
           "Content-Type": "application/json",
         },
       });
+      console.groupCollapsed("response: ", response);
+      const data = await response.json();
+      console.log("data: ", data);
+      if (data["success"]) {
+        this.$router.push({
+          name: "Home",
+        });
+      }
     },
   },
 };

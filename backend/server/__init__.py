@@ -1,13 +1,9 @@
 from cgitb import html
-from crypt import methods
 from functools import total_ordering
 import json
-<<<<<<< HEAD
 from urllib import response
-=======
 from pickle import NONE
 from tkinter import CURRENT
->>>>>>> 0f7a4edd6a3b49e0210acb2650ca29afc6c01a57
 from flask import (
     Flask, 
     jsonify,
@@ -52,7 +48,6 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Headers', 'GET, POST, PATCH, DELETE, OPTIONS')
         return response
 
-<<<<<<< HEAD
     @app.route('/usuarios', methods=['POST'])
     def create_usuario():
         usuario_nombre = request.get_json()['usuario_nombre']
@@ -65,15 +60,15 @@ def create_app(test_config=None):
         usuario = Usuario(usuario_nombre=usuario_nombre, usuario_apellido=usuario_apellido, usuario_nacimiento=usuario_nacimiento, usuario_email=usuario_email, usuario_apodo=usuario_apodo, usuario_contrasena=usuario_contrasena)
         new_usuario = usuario.insert()
 
-        return jsonify({
-            'success': True,
-            'created': new_usuario
-        })
+        if new_usuario is None:
+            abort(400)
+        else:
+            return jsonify({
+                'success': True
+            })
         
 
-=======
 # Routes---------------------------------------------------
->>>>>>> 0f7a4edd6a3b49e0210acb2650ca29afc6c01a57
 
     @app.route('/', methods=['POST'])
     def login():

@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey, delete, true
 #-------------------------
 
 database_name = 'meowbook'
-password_path = '1234'
+password_path = '74040168'
 database_path = 'postgresql://{}:{}@localhost:{}/{}'.format('postgres', password_path, 5432,database_name)
 
 #--------------------------
