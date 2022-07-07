@@ -1,3 +1,4 @@
+from distutils.log import error
 import json
 from tkinter import E
 from tkinter.messagebox import NO
@@ -16,7 +17,6 @@ from itsdangerous import NoneAlgorithm
 from sqlalchemy import true
 
 from models import setup_db, Usuario, Libro, Autor, Like, Resena
-
 
 # Agregar una función de paginación de ser necesario ------
 
@@ -65,29 +65,6 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Headers', 'GET, POST, PATCH, DELETE, OPTIONS')
         return response
 
-<<<<<<< HEAD
-    @app.route('/usuarios', methods=['POST'])
-    def create_usuario():
-        usuario_nombre = request.get_json()['usuario_nombre']
-        usuario_apellido = request.get_json()['usuario_apellido']
-        usuario_nacimiento = request.get_json()['usuario_nacimiento']
-        usuario_email = request.get_json()['usuario_email']
-        usuario_apodo = request.get_json()['usuario_apodo']
-        usuario_contrasena = request.get_json()['usuario_contrasena']
-
-        usuario = Usuario(usuario_nombre=usuario_nombre, usuario_apellido=usuario_apellido, usuario_nacimiento=usuario_nacimiento, usuario_email=usuario_email, usuario_apodo=usuario_apodo, usuario_contrasena=usuario_contrasena)
-        new_usuario = usuario.insert()
-
-        if new_usuario is None:
-            abort(400)
-        else:
-            return jsonify({
-                'success': True
-            })
-        
-
-=======
->>>>>>> c8d88069b6949ab57894abc7dbb94aebd33b6c95
 # Routes---------------------------------------------------
 
     @app.route('/', methods=['POST'])
