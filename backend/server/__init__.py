@@ -204,7 +204,7 @@ def create_app(test_config=None):
             
             autor.delete()
 
-            selection = Autor.query.oder_by('id').all()
+            selection = Autor.query.order_by('id').all()
             autores = paginated_autores(request, selection)
 
             return jsonify({
