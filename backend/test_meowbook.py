@@ -282,13 +282,21 @@ class TestCaseTodoApp(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         pass
-
+    
     @unittest.skip('TEST PASS')
     def test_delete_like_successfully(self):
+        res = self.client().delete('/likes/2')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
         pass
 
     @unittest.skip('TEST PASS')
     def test_delete_like_unsuccessfully(self):
+        res = self.client().delete('/likes/-2')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
         pass
 
     def tearDown(self):

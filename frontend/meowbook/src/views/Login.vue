@@ -44,7 +44,16 @@ export default {
       console.log("data: ", data);
       if (data["success"]) {
         this.$router.push({
-          name: "Home",
+          name: "Perfil",
+          params: {
+            user_id: data["user_id"],
+            usuario_nombre: data["usuario_nombre"],
+            usuario_apellido: data["usuario_apellido"],
+            usuario_nacimiento: data["usuario_nacimiento"],
+            usuario_email: data["usuario_email"],
+            usuario_apodo: data["usuario_apodo"],
+            usuario_contrasena: data["usuario_contrasena"],
+          },
         });
       }
     },

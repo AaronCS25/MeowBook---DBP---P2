@@ -27,6 +27,7 @@ const routes = [
   {
     path: "/perfil",
     name: "Perfil",
+    props: true,
     component: () =>
       import(/* webpackChunkName: "Perfil" */ "../views/Perfil.vue"),
   },
