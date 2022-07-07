@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     async signin() {
-      const URL = "http://127.0.0.1:500/usuarios";
+      const URL = "http://127.0.0.1:5000/usuarios";
       fetch(URL, {
         method: "POST",
         body: JSON.stringify({
