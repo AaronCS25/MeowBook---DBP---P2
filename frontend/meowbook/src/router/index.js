@@ -20,7 +20,7 @@ const routes = [
   },
   {
     path: "/guardados",
-    name: "Guardados",
+    name: "LikeBooks",
     component: () =>
       import(/* webpackChunkName: "Guardados" */ "../views/Guardados.vue"),
   },
