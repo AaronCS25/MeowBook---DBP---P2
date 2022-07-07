@@ -197,15 +197,32 @@ class TestCaseTodoApp(unittest.TestCase):
 
     @unittest.skip('TEST PASS') 
     def test_update_libros_by_id_successfully(self):
+        res = self.client().patch('/libros/1', json = {'autor_nombre': 'update_nombre'})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['autor_id'], '1')
         pass
 
     @unittest.skip('TEST PASS') 
     def test_update_libros_by_id_unsuccessfully(self):
-        pass
+        res = self.client().patch('/libros/-1', json = {})
+        data = json.loads(res.data)
 
-    @unittest.skip('TEST PASS') 
-    def test_delete_libros_by_id_successfully(self):
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
         pass
+        
+
+    
+    def test_delete_libros_by_id_successfully(self):
+        res = self.client().delete('/libros/2')
+        data = json.loads(res.data)
+        print('data: ', data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        
 
     @unittest.skip('TEST PASS') 
     def test_delete_libros_by_id_unsuccessfully(self):
