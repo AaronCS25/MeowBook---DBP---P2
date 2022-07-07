@@ -56,7 +56,7 @@ CURRENT_USER = None
 def create_app(test_config=None):
     app = Flask(__name__) # Instancia de Flask.
     setup_db(app)
-    CORS(app, origins=['http://localhost:8081'], max_age=10)
+    CORS(app, origins=['http://localhost:8080'], max_age=10)
     # Autorizamos a que nuestro frontend se conecte con nuestro backend.
 
     @app.after_request
