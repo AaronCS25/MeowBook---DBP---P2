@@ -1,4 +1,3 @@
-from importlib.metadata import SelectableGroups
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey, delete, true
 
@@ -57,64 +56,6 @@ class Usuario(db.Model):
                 password = {self.usuario_contrasena}
         '''
 
-#-------------------------------Libro-------------------------------#
-class Libro(db.Model):
-    __tablename__ = 'libros'
-    libro_id = db.Column(db.Integer, primary_key=True)
-    libro_titulo = db.Column(db.Integer, nullable=False)
-    libro_autor_id = db.Column(db.Integer, ForeignKey('autores.autor_id'))
-    libro_sinopsis = db.Column(db.Text, nullable=False)
-    libro_editorial = db.Column(db.String, nullable=False)
-    libro_publicacion = db.Column(db.Date, nullable=True)
-    libro_isbn = db.Column(db.String, nullable=False)
-    resenas = db.relationship('Resena', backref='Libro')
-
-    def insert(self):
-        try:
-            db.session.add(self)
-            db.session.commit()
-            return self.libro_id
-        except:
-            db.session.rollback()
-        finally:
-            db.session.close()
-    
-    def update(self):
-        try:
-            db.session.commit()
-        except:
-            db.session.rollback()
-        finally:
-            db.session.close()
-    
-    def delete(self):
-        try:
-            db.session.delete(self)
-            db.session.commit()
-        except:
-            db.session.rollback()
-        finally:
-            db.session.close()
-        
-    def format(self):
-        return {
-            'id': self.libro_id,
-            'libro_titulo': self.libro_titulo,
-            'libro_autor_id': self.libro_autor_id,
-            'libro_isbn': self.libro_isbn
-        }
-
-    def __repr__(self):
-        return f'''
-                Libro: 
-                id = {self.libro_id}, 
-                autor_id = {self.libro_autor_id},  
-                titulo = {self.libro_titulo}, 
-                editorial = {self.libro_editorial}, 
-                publicacion = {self.libro_publicacion}, 
-                ISBN = {self.libro_isbn}
-        '''
-
 #-------------------------------Autor-------------------------------#
 class Autor(db.Model):
     __tablename__ = 'autores'
@@ -166,6 +107,64 @@ class Autor(db.Model):
                 nombre = {self.autor_nombre}, 
                 apellido = {self.autor_apellido}, 
                 estado = {self.autor_estado}
+        '''
+
+#-------------------------------Libro-------------------------------#
+class Libro(db.Model):
+    __tablename__ = 'libros'
+    libro_id = db.Column(db.Integer, primary_key=True)
+    libro_titulo = db.Column(db.String, nullable=False)
+    libro_autor_id = db.Column(db.Integer, ForeignKey('autores.autor_id'))
+    libro_sinopsis = db.Column(db.Text, nullable=False)
+    libro_editorial = db.Column(db.String, nullable=False)
+    libro_publicacion = db.Column(db.Date, nullable=True)
+    libro_isbn = db.Column(db.String, nullable=False)
+    resenas = db.relationship('Resena', backref='Libro')
+
+    def insert(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return self.libro_id
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def update(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+    
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
+        
+    def format(self):
+        return {
+            'id': self.libro_id,
+            'libro_titulo': self.libro_titulo,
+            'libro_autor_id': self.libro_autor_id,
+            'libro_isbn': self.libro_isbn
+        }
+
+    def __repr__(self):
+        return f'''
+                Libro: 
+                id = {self.libro_id}, 
+                autor_id = {self.libro_autor_id},  
+                titulo = {self.libro_titulo}, 
+                editorial = {self.libro_editorial}, 
+                publicacion = {self.libro_publicacion}, 
+                ISBN = {self.libro_isbn}
         '''
 
 #--------------------------------Like-------------------------------#
