@@ -77,7 +77,8 @@ def create_app(test_config=None):
             abort(403)
         else:
             return jsonify({
-                'success': True
+                'success': True,
+                'user_id': usuario.usuario_id
             })
     
     @app.route('/usuarios', methods=['POST'])
