@@ -1,18 +1,15 @@
 <template>
   <TheNavigation />
-  <LikeBook />
   <router-view />
 </template>
 
 <script>
 import TheNavigation from "./components/TheNavigation.vue";
-import LikeBook from "./components/LikeBook.vue";
 
 export default {
   name: "App",
   components: {
     TheNavigation,
-    LikeBook,
   },
 };
 </script>
