@@ -52,7 +52,7 @@ CURRENT_USER = None
 def create_app(test_config=None):
     app = Flask(__name__) # Instancia de Flask.
     setup_db(app)
-    CORS(app, origins=['http://localhost:8081'], max_age=10)
+    CORS(app, origins=['http://localhost:8080'], max_age=10)
     # Autorizamos a que nuestro frontend se conecte con nuestro backend.
 
     @app.after_request
@@ -77,7 +77,8 @@ def create_app(test_config=None):
             abort(403)
         else:
             return jsonify({
-                'success': True
+                'success': True,
+                'user_id': usuario.usuario_id
             })
     
     @app.route('/usuarios', methods=['POST'])
@@ -322,7 +323,7 @@ def create_app(test_config=None):
     def delete_libro(libro_id):
         error_404 = False
         try:
-            libro = Libro.query.filter(Libro.id == libro_id).one_or_none()
+            libro = Libro.query.filter(Libro.libro_id == libro_id).one_or_none()
             if libro is None:
                 error_404 = True
                 abort(404)
