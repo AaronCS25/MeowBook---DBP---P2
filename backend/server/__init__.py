@@ -270,7 +270,7 @@ def create_app(test_config=None):
 
             new_libro_id = libro.insert()
 
-            selection = Libro.query.oder_by('libro_id').all()
+            selection = Libro.query.order_by('libro_id').all()
             libros = paginated_libros(request, selection)
 
             return jsonify({
@@ -356,7 +356,7 @@ def create_app(test_config=None):
             abort(404)
         
         return jsonify({
-            'succes': True,
+            'success': True,
             'likes': likes,
             'total_likes': len(selection)
         })
