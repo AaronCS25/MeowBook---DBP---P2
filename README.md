@@ -50,6 +50,16 @@ En el 'models.py', al configurar el app, se colocó la DATABASE_URI con el path 
 
 # API's information. Request & Responces (endpoints):
 
+<ul>
+            <li><strong>Frontend '/':</strong></li> Lleva a la página de de inicio de sesión.
+            <li><strong>Backend '/':</strong></li> Con método POST recibe lo ingresado en inicio de sesión y verifica que la cuenta esté previamente registrada.
+            <li><strong>'/signin':</strong></li> Carga la página donde se ingresa los valores para registrar un nuevo usuario.
+            <li><strong>'/usuarios':</strong></li> Utiliza método POST para recibir los datos puestos en el registro y crear un nuevo usuario en la base de datos (tabla 'usuarios').
+            <li><strong>'/autores':</strong></li> A través de POST recibe los autores registrados en la base de datos y los muestra.
+            <li><strong>'/guardados':</strong></li> Muestra los la página donde se encuentran los libros a los que el usuario les puso 'like'.
+            <li><strong>'/perfil':</strong></li> Redirige a la página donde se muestran lso datos del usuaio que ingresó a la página.
+</ul>
+
 ## Hosts:
 
 Se utilizaron un localhost diferente para el backend y frontend
