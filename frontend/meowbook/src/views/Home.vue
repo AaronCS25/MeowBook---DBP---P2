@@ -2,29 +2,48 @@
   <div>
     <h1>Home</h1>
     <input type="text" v-model="search" />
-    <button type="submit">search</button>
-    <ul style="border: 1px solid black">
-      <li class="libro">
-        <h4>Título Libro</h4>
-        <ul class="conjunto-libros">
-          <li class="elemento-libro">Autor: -------------------</li>
-          <li class="elemento-libro">Publicación: -------------</li>
-          <li class="elemento-libro">Editorial: ----------------</li>
-          <li class="elemento-libro">ISBN: ---------------------</li>
-        </ul>
-      </li>
-    </ul>
-    <p>{{ search }}</p>
+    <form @submit.prevent="buscar">
+      <button type="submit" id="submit">buscar</button>
+    </form>
+    <div v-for="dato in lists" :key="dato.libro_id">
+      <ul style="border: 1px solid black">
+        <li class="libro">
+          <h4>{{ dato.libro_titulo }}</h4>
+          <ul class="conjunto-libros">
+            <p>ISBN:</p>
+            <li>{{ dato.libro_isbn }}</li>
+            <h1></h1>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
+let firstName = sessionStorage.getItem("current_user");
+console.log("current_user: ", firstName);
 export default {
   name: "Home",
   data() {
     return {
-      search: "",
+      lists: [],
     };
+  },
+  methods: {
+    async buscar() {
+      const url = "http://127.0.0.1:5000/libros";
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.groupCollapsed("response: ", response);
+      const data = await response.json();
+      console.log("data: ", data);
+      this.lists = data.libros;
+    },
   },
 };
 </script>

@@ -8,7 +8,7 @@
         type="password"
         placeholder="Contraseña"
       /><br />
-      <button type="submit">Login</button>
+      <button type="submit" id="submit">Login</button>
     </form>
   </div>
   <p>
@@ -43,6 +43,7 @@ export default {
       const data = await response.json();
       console.log("data: ", data);
       if (data["success"]) {
+        sessionStorage.setItem("current_user", data["user_id"]);
         this.$router.push({
           name: "Perfil",
           params: {
@@ -56,6 +57,7 @@ export default {
           },
         });
       }
+      console.log("current_user: ", data["user_id"]);
     },
   },
 };
