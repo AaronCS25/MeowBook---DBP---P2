@@ -1,4 +1,4 @@
-## Proyecto - DBP - 1
+# Proyecto - DBP - 1
 
 - Proyecto desarrollado para el curso de desarrollo basado en plataformas.
 
@@ -30,26 +30,26 @@ Ayudar a los lectores ha poder organizar con facilidad los libros que están ley
 
 Crear una comunidad de lectores donde, de manera amigable, estos puedan interactuar  en base a las preferencias que puedan tener y compartirlas con los demás  usuarios.
 
-## Frameworks & Librerias:
+# Frameworks & Librerias:
 
-# 1. Front-end
+## 1. Front-end
     *  Se utilizó Bootstrap 5, JavaScript, Vue.js y Vue Client
 
-# 2. Backend
+## 2. Backend
     * Flask
     * Flask - SQLAlchemy
     * Flask - Migrate 
     * Flask - WTF
 
-# 3. Base de datos
+## 3. Base de datos
     * PostgreSQL v14.2
 
-## Script a ejecutar para iniciar el proyecto con datos:
+# Script a ejecutar para iniciar el proyecto con datos:
 En el 'models.py', al configurar el app, se colocó la DATABASE_URI con el path hacia la base de datos local.
 
-## API's information. Request & Responces (endpoints):
+# API's information. Request & Responces (endpoints):
 
-## Hosts:
+# Hosts:
 Se utilizaron un localhost diferente para el backend y frontend
    * Para el frontend, donde estaba Vue, se utilizó el puerto 8081.
    * Para el backend, donde corre Flask, se usó el 5000.
@@ -58,12 +58,12 @@ Se utilizaron un localhost diferente para el backend y frontend
 
 ## Error Handler:
 
-## Cómo ejecutar el sistema (Deployment scripts):
-# Backend
+# Cómo ejecutar el sistema (Deployment scripts):
+## Backend
    * export FLASK_APP=server
    * export FLASK_ENV=development
    * run flask
-# Frontend
+## Frontend
    * yarn serve
 
 
