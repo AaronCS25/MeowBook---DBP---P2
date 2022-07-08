@@ -78,7 +78,13 @@ def create_app(test_config=None):
         else:
             return jsonify({
                 'success': True,
-                'user_id': usuario.usuario_id
+                'user_id': usuario.usuario_id,
+                'usuario_nombre': usuario.usuario_nombre,
+                'usuario_apellido': usuario.usuario_apellido,
+                'usuario_nacimiento': usuario.usuario_nacimiento,
+                'usuario_nacimiento': usuario.usuario_nacimiento,
+                'usuario_apodo': usuario.usuario_apodo,
+                'usuario_contrasena': usuario.usuario_contrasena
             })
     
     @app.route('/usuarios', methods=['POST'])
