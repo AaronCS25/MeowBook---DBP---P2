@@ -60,6 +60,9 @@ Se utilizaron un localhost diferente para el backend y frontend
 
 ## Error Handler:
 
+Se crearon una respuesta formato JSON con los componentes: 'succes', 'code' y 'message'. 
+Solo se crearon errorhandlers para los errares tipo 400, 403, 404, 422 y 500.
+
 # Cómo ejecutar el sistema (Deployment scripts):
 
 ## Backend
@@ -73,6 +76,7 @@ Se utilizaron un localhost diferente para el backend y frontend
 # Manejo de test
 
 # Modelo relacional
+![Modelo Relacional](https://user-images.githubusercontent.com/103542038/177927334-22d0a3b7-50cd-4e9a-974f-f2ae1a516e72.PNG)
 
 
 
