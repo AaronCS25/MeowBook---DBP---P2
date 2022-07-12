@@ -78,7 +78,6 @@ export default {
   border-radius: 25px;
   border: none;
 }
-
 .form-input:focus {
   border: none;
   outline: none;

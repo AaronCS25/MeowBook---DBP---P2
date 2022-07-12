@@ -98,7 +98,6 @@ export default {
 #form1 {
   width: 70%;
 }
-
 .form-input {
   width: 70%;
   height: 25px;
@@ -107,12 +106,10 @@ export default {
   border-radius: 25px;
   border: none;
 }
-
 .form-input:focus {
   border: none;
   outline: none;
 }
-
 .button {
   padding: 8px;
   margin: 20px;
