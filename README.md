@@ -11,7 +11,7 @@
 * Camacho Valencia, Aaron Arturo - 202020021
 * Ruiz de Somocurcio Landa, Cristóbal - 202010386
 * Hilario Quintana, Jeffry Arturo - 202020082
-* Vásquez de Velasco Gonzales Vigil, Rodrigo
+* Vásquez de Velasco Gonzales Vigil, Rodrigo - 202110682
 
 ## Descripción del proyecto:
 
