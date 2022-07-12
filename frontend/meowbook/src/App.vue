@@ -23,20 +23,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #fdfdfd;
   height: 100%;
   width: 100%;
   margin: auto 0px;
-  background: #eef6ff;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  background: rgb(51, 76, 108);
 }
 </style>
-
