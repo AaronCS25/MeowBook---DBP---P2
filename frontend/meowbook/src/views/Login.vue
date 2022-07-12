@@ -1,20 +1,26 @@
 <template>
   <div>
-    <h1>Iniciar Sesión</h1>
+    <h1>MeowBookApp</h1>
     <form @submit.prevent="login">
-      <input v-model="usuario_email" type="email" placeholder="Email" /><br />
       <input
+        class="form-input"
+        v-model="usuario_email"
+        type="email"
+        placeholder="Email"
+      /><br />
+      <input
+        class="form-input"
         v-model="usuario_contrasena"
         type="password"
         placeholder="Contraseña"
       /><br />
-      <button type="submit" id="submit">Login</button>
+      <p>
+        ¿Aún no tienes una cuenta MeowBook (=^･ｪ･^=)?
+        <router-link to="/signin">Sign In</router-link>
+      </p>
+      <button class="button" type="submit" id="submit">Iniciar sesión</button>
     </form>
   </div>
-  <p>
-    ¿Aún no tienes una cuenta MeowBook (=^･ｪ･^=)?
-    <router-link to="/signin">Sign In</router-link>
-  </p>
 </template>
 
 <script>
@@ -63,4 +69,36 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.form-input {
+  width: 70%;
+  height: 25px;
+  padding: 8px 25px;
+  margin: 12px;
+  border-radius: 25px;
+  border: none;
+}
+
+.form-input:focus {
+  border: none;
+  outline: none;
+}
+.button {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 8px;
+  margin: 20px;
+  border-radius: 25px;
+  width: 70%;
+  text-align: center;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  border: none;
+  color: white;
+}
+</style>
