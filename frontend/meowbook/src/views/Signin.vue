@@ -121,12 +121,11 @@ export default {
   font-size: 18px;
   font-weight: bold;
   text-align: center;
-  background: rgb(2, 0, 36);
+  background: rgb(0, 212, 255);
   background: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(9, 9, 121, 1) 35%,
-    rgba(0, 212, 255, 1) 100%
+    141deg,
+    rgba(0, 212, 255, 1) 0%,
+    rgba(108, 95, 255, 1) 100%
   );
   border: none;
   color: white;
