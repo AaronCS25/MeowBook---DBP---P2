@@ -239,7 +239,23 @@ def create_app(test_config=None):
             'success': True,
             'libros': libros,
             'total_libros': len(selection)
+        })  
+
+    @app.route('/libros_busqueda', methods=['POST'])
+    def get_libros_by_nombre():
+        body = request.get_json()
+        search = body.get('search', None)
+
+        
+        selection = Libro.query.order_by('libro_id').filter(Libro.libro_titulo.like('%{}%'.format(search))).all()
+        libros = paginated_libros(request, selection)
+        return jsonify({
+            'success': True,
+            'libros': libros,
+            'total_libros': len(selection)
         })
+
+
     
     @app.route('/libros', methods=['POST'])
     def create_libro():
@@ -253,10 +269,9 @@ def create_app(test_config=None):
         libro_isbn = body.get('libro_isbn', None)
 
         search = body.get('search', None)
-
         if search:
             selection = Libro.query.order_by('libro_id').filter(Libro.libro_titulo.like('%{}%'.format(search))).all()
-            libros = paginated_libros(selection)
+            libros = paginated_libros(request, selection)
             return jsonify({
                 'success': True,
                 'libros': libros,
