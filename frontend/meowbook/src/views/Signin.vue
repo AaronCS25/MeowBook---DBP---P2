@@ -1,31 +1,52 @@
 <template>
   <div>
     <h1>Registrarse</h1>
-    <form @submit.prevent="signin">
-      <input v-model="usuario.usuario_nombre" placeholder="Nombre" /> <br />
-      <input v-model="usuario.usuario_apellido" placeholder="Apellido" /> <br />
+    <form class="form1" @submit.prevent="signin">
       <input
+        class="form-input"
+        v-model="usuario.usuario_nombre"
+        placeholder="Nombre"
+      />
+      <br />
+      <input
+        class="form-input"
+        v-model="usuario.usuario_apellido"
+        placeholder="Apellido"
+      />
+      <br />
+      <input
+        class="form-input"
         v-model="usuario.usuario_nacimiento"
         type="date"
         placeholder="Nacimiento"
       />
       <br />
-      <input v-model="usuario.usuario_email" type="email" placeholder="Email" />
-      <br />
-      <input v-model="usuario.usuario_apodo" placeholder="Apodo" /> <br />
       <input
+        class="form-input"
+        v-model="usuario.usuario_email"
+        type="email"
+        placeholder="Email"
+      />
+      <br />
+      <input
+        class="form-input"
+        v-model="usuario.usuario_apodo"
+        placeholder="Apodo"
+      />
+      <br />
+      <input
+        class="form-input"
         v-model="usuario.usuario_contrasena"
         type="password"
         placeholder="Contraseña"
       />
-      <br />
-      <button type="submit">Signin</button>
+      <p>
+        ¿Ya eres parte de la familia MeowBook (＾• ω •＾)?
+        <router-link to="/">Log in</router-link>
+      </p>
+      <button class="button" type="submit">Registrarse</button>
     </form>
   </div>
-  <p>
-    ¿Ya eres parte de la familia MeowBook (＾• ω •＾)?
-    <router-link to="/">Log in</router-link>
-  </p>
 </template>
 
 <script>
@@ -72,3 +93,42 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#form1 {
+  width: 70%;
+}
+
+.form-input {
+  width: 70%;
+  height: 25px;
+  padding: 8px 25px;
+  margin: 10px;
+  border-radius: 25px;
+  border: none;
+}
+
+.form-input:focus {
+  border: none;
+  outline: none;
+}
+
+.button {
+  padding: 8px;
+  margin: 20px;
+  border-radius: 25px;
+  width: 70%;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  border: none;
+  color: white;
+}
+</style>
