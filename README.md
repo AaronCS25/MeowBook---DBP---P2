@@ -68,6 +68,8 @@ Se utilizaron un localhost diferente para el backend y frontend
 
 ## Forma de auntenticación:
 
+Recibe los datos ingresados al Login, hace una busqueda en la base de datos de Usuarios y si coinciden tanto Correo como Contraseña, redirige al perfil, donde manda los datos de dicho usuario.
+
 ## Error Handler:
 
 Se crearon una respuesta formato JSON con los componentes: 'succes', 'code' y 'message'. 
